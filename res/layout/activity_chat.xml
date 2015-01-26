@@ -16,6 +16,17 @@
         android:scrollbars="none"
         android:transcriptMode="alwaysScroll" />
 
+    <TextView
+        android:id="@+id/txtChatContactTyping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:text="@string/lbl_chat_contact_typing"
+        android:padding="@dimen/generic_layout_padding"
+        android:layout_above="@+id/layoutChatBottomExtensionBar" />
+    
     <RelativeLayout
         android:id="@+id/layoutChatBottomExtensionBar"
         android:layout_width="match_parent"

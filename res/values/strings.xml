@@ -32,6 +32,7 @@
     <string name="lbl_call_incoming">Incoming call from</string>
     <string name="lbl_call_dialing">Calling</string>
     <string name="lbl_call_duration">Call Duration:</string>
+    <string name="lbl_chat_contact_typing">مخاطب در حال نوشتن است...</string>
     <string name="lbl_ngn_display_name">Display Name</string>
     <string name="lbl_ngn_public_id">Public Identity</string>
     <string name="lbl_ngn_private_id">Private Identity</string>

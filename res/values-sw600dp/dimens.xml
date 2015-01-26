@@ -46,6 +46,8 @@
     <dimen name="chat_message_item_time_text_size">17sp</dimen>
     <dimen name="chat_message_item_picture_width">480dp</dimen>
     <dimen name="chat_message_item_picture_width_reduced">416dp</dimen>
+    <dimen name="chat_message_item_delivery_size">32dp</dimen>
+    <dimen name="contact_list_item_status_size">64dp</dimen>
     <dimen name="contact_profile_button_size">96dp</dimen>
     <dimen name="btn_add_contact_size">160dp</dimen>
     <dimen name="btn_add_contact_text_size">30sp</dimen>
