@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_bg"
+    android:padding="@dimen/generic_layout_padding"
+    tools:context="net.denavas.taxiservice.driverclient.WaitingDialog" >
+
+    <TextView
+        android:id="@+id/txtWaitingDialogMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textColor="#000"
+        android:textSize="@dimen/generic_dialog_message_text_size"
+        android:textStyle="bold" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtWaitingDialogMessage"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

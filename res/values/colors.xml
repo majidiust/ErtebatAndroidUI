@@ -2,5 +2,11 @@
 <resources>
 
     <color name="main_bg">#0085E5</color>
+    <color name="main_bg_disconnected">#999999</color>
+    <color name="btn_disabled">#eeeeee</color>
+    <color name="btn_positive">#5aff5a</color>
+    <color name="btn_positive_pressed">#00ff00</color>
+    <color name="btn_negative">#ff5a5a</color>
+    <color name="btn_negative_pressed">#ff0000</color>
 
 </resources>

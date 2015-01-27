@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_bg"
+    tools:context="net.denavas.taxiservice.driverclient.WaitingDialog" >
+
+    <TextView
+        android:id="@+id/txtMessageDialogMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/generic_layout_padding"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textSize="@dimen/generic_dialog_message_text_size"
+        android:textStyle="bold"
+        android:textColor="#000" />
+    
+    <Button
+        android:id="@+id/btnMessageDialogAcknowledge"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/generic_bottom_bar_height"
+        android:layout_below="@+id/txtMessageDialogMessage"
+        android:background="@drawable/style_btn_positive"
+        android:text="@string/lbl_acknowledge"
+        android:textSize="@dimen/generic_btn_text_size"
+        android:textStyle="bold" />
+
+</RelativeLayout>
