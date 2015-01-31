@@ -165,7 +165,6 @@ public class SignInActivity extends BaseActivity {
 	public void onConnectedToServer() {
 		super.onConnectedToServer();
 		SessionStore.mSessionStore.mIsLoggedIn = true;
-		showToast("hello : " + (mCount++));
 		mHandler.post(new Runnable() {
 			@Override
 			public void run() {

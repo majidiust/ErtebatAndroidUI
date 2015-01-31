@@ -6,6 +6,7 @@ import org.ertebat.R;
 import org.ertebat.schema.FriendSchema;
 import org.ertebat.schema.MessageSchema;
 import org.ertebat.schema.RoomSchema;
+import org.ertebat.schema.SessionStore;
 import org.ertebat.transport.INGN;
 import org.ertebat.transport.ITransport;
 
@@ -55,7 +56,7 @@ public class BaseFragment extends Fragment implements ITransport, INGN {
 		mBaseActivity = (BaseActivity) getActivity();
 		((BaseActivity) getActivity()).registerToTransportListeners(this);
 		((BaseActivity) getActivity()).registerToNGNListeners(this);
-
+		
 		return null;
 	}
 
@@ -76,12 +77,12 @@ public class BaseFragment extends Fragment implements ITransport, INGN {
 			public void run() {
 				AlertDialog.Builder builder = new AlertDialog.Builder(This);
 				builder.setMessage(message).setCancelable(false)
-						.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								// do things
-							}
-						});
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						// do things
+					}
+				});
 				AlertDialog alert = builder.create();
 				alert.show();
 			}
@@ -115,14 +116,24 @@ public class BaseFragment extends Fragment implements ITransport, INGN {
 
 	@Override
 	public void onConnectedToServer() {
-		// TODO Auto-generated method stub
+		mHandler.post(new Runnable() {
 
+			@Override
+			public void run() {
+				onServerConnectionChanged(true);		
+			}
+		});
 	}
 
 	@Override
 	public void onDisconnctedFromServer() {
-		// TODO Auto-generated method stub
+		mHandler.post(new Runnable() {
 
+			@Override
+			public void run() {
+				onServerConnectionChanged(false);		
+			}
+		});
 	}
 
 	@Override
@@ -205,5 +216,12 @@ public class BaseFragment extends Fragment implements ITransport, INGN {
 
 	public void onServerConnectionChanged(boolean isConnected) {
 		mRootView.setBackgroundResource(isConnected ? R.color.main_bg : R.color.main_bg_disconnected);
+	}
+
+	@Override
+	public void onFriendConnectivityStatusChanged(String friendId,
+			String connectivityStatus) {
+		// TODO Auto-generated method stub
+
 	}
 }

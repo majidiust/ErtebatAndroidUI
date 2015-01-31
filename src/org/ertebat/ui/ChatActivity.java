@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -146,6 +148,27 @@ public class ChatActivity extends BaseActivity {
 
     private void setupBottomBar() {
         mEditMessageContent = (EditText) findViewById(R.id.editChatBottomMessage);
+        mEditMessageContent.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
         mBtnSendMessage = (Button) findViewById(R.id.btnChatBottomSend);
         mBtnSendMessage.setTypeface(FontKoodak);

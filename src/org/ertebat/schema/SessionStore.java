@@ -5,6 +5,8 @@ package org.ertebat.schema;
 
 import java.util.Vector;
 
+import org.ertebat.schema.FriendSchema.FriendState;
+
 import android.util.Log;
 
 /**
@@ -13,6 +15,7 @@ import android.util.Log;
  */
 public class SessionStore {
 	private static final String TAG = "SessionStore";
+	private boolean mIsConnected = false;
 	public Vector<FriendSchema> mFriendList = new Vector<FriendSchema>();
 	public Vector<RoomSchema> mRooms = new Vector<RoomSchema>();
 	public String mCurrentRoomId = null;
@@ -30,6 +33,17 @@ public class SessionStore {
 			mFriendList.add(fs);
 		}
 	}
+	
+	public void setFriendConnectivityStatus(String friendId, FriendState connectivityStatus){
+		for(int i = 0 ; i < mFriendList.size() ; i++){
+			FriendSchema tmpFS = (FriendSchema) mFriendList.get(i);
+			if(tmpFS.m_friendId.compareTo(friendId) == 0){
+				tmpFS.setFriensConnectivity(connectivityStatus);
+				break;
+			}
+		}
+	}
+	
 	public void addRoom(RoomSchema rs){
 		boolean find = false;
 		for(int i = 0 ; i < mRooms.size(); i++){
@@ -74,6 +88,14 @@ public class SessionStore {
 			}
 		}
 		return null;
+	}
+	
+	public boolean getConnectivityState(){
+		return mIsConnected;
+	}
+	
+	public void setConnectivityState(boolean state){
+		mIsConnected = state;
 	}
 	
 	public static SessionStore mSessionStore = new SessionStore();

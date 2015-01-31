@@ -19,6 +19,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.doubango.ngn.sip.NgnSipSession.ConnectionState;
 import org.ertebat.R;
 import org.ertebat.schema.FriendSchema;
 import org.ertebat.schema.SessionStore;
@@ -108,7 +109,7 @@ public class ContactListFragment extends BaseFragment {
 		loadLocal();
 
 		mRootView = rootView;
-
+        onServerConnectionChanged(SessionStore.mSessionStore.getConnectivityState());
 		return mRootView;
 	}
 
@@ -197,6 +198,7 @@ public class ContactListFragment extends BaseFragment {
 				contact.ContactPhone = fs.m_friendUserName;
 				contact.ContactName = fs.m_friendUserName;
 				contact.ContactId = fs.m_friendId;
+				contact.Status = ContactStatus.Offline;
 				mDataSet.add(contact);
 				mHandler.post(new Runnable() {
 					@Override
@@ -205,6 +207,32 @@ public class ContactListFragment extends BaseFragment {
 					}
 				});
 			}
+		}
+	}
+
+	@Override
+	public void onFriendConnectivityStatusChanged(String friendId,
+			String connectivityStatus) {
+		try{
+			for (int i = 0 ; i < mDataSet.size() ; i++) {
+				ContactSummary cs = mDataSet.get(i);
+				if (cs.ContactId.compareTo(friendId) == 0) {
+					if(connectivityStatus.compareTo("Offline") == 0){
+						cs.Status = ContactStatus.Offline;
+					}
+					else if(connectivityStatus.compareTo("Online") == 0){
+						cs.Status = ContactStatus.Online;
+					}
+					else if(connectivityStatus.compareTo("Idle") == 0){
+						cs.Status = ContactStatus.Idle;
+					}
+					announceChanges();
+					break;
+				}
+			}
+		}
+		catch(Exception ex){
+
 		}
 	}
 
@@ -220,5 +248,15 @@ public class ContactListFragment extends BaseFragment {
 	private void setContactState(int index, ContactStatus status) {
 		mDataSet.get(index).Status = status;
 		mAdapter.notifyDataSetChanged();
+	}
+
+	private void announceChanges(){
+		mHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				mAdapter.notifyDataSetChanged();				
+			}
+		});
 	}
 }

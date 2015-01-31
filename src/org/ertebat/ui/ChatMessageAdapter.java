@@ -105,7 +105,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
                 int width = (int) getContext().getResources().getDimension(R.dimen.chat_message_item_picture_width);
                 Picasso.with(getContext())
                         .load(SettingSchema.mBaseRestUrl + "uploaded/entities/" + message.MessageText)
-                        .resize(width, width).centerInside().placeholder(dr).into(image);
+                        .resize(width, width).centerInside().placeholder(dr).into(mPictureTarget);
             } catch (NotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

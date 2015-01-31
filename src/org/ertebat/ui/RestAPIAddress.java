@@ -59,4 +59,7 @@ public class RestAPIAddress {
 	public static String getSendPictureMessage(){
 		return SettingSchema.mBaseRestUrl + "chat/sendPictureMessageTo";
 	}
+	public static String getFriendSummery(){
+		return SettingSchema.mBaseRestUrl + "api/getFriendSummery";
+	}
 }

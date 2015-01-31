@@ -5,7 +5,9 @@ package org.ertebat.transport.websocket;
 
 import java.util.Vector;
 
+import org.doubango.ngn.sip.NgnSipSession.ConnectionState;
 import org.ertebat.schema.FriendSchema;
+import org.ertebat.schema.FriendSchema.FriendState;
 import org.ertebat.schema.MessageSchema;
 import org.ertebat.schema.RoomSchema;
 import org.ertebat.schema.SessionStore;
@@ -192,10 +194,19 @@ public class WebsocketService extends Service {
 									Vector<FriendSchema> listOfFriends = new Vector<FriendSchema>();
 									for(int i = 0 ; i < friends.length() ; i++){
 										JSONObject obj = friends.getJSONObject(i);
-										String id ,userName, status;
+										String id ,userName, status, connectivity;
+										FriendState connectivityStatus = FriendState.FS_Offline;
 										id = obj.getString("friendId");
 										userName = obj.getString("friendUsername");
 										status = obj.getString("status");
+										try{
+											connectivity = obj.getString("connectivity");
+											if(connectivity.equals("Online"))
+												connectivityStatus = FriendState.FS_Online;
+										}
+										catch(Exception ex){
+											logCatDebug(ex.getMessage());
+										}
 										listOfFriends.add(new FriendSchema(id, userName, status));
 									}
 
@@ -334,6 +345,36 @@ public class WebsocketService extends Service {
 										try {
 
 											mCallbacks.getBroadcastItem(i).notifyAddedToRoom(invitedBy, roomId);
+										} 
+										catch (RemoteException e) {
+											logCatDebug(e.getMessage());
+										}
+									}
+									mCallbacks.finishBroadcast();
+								}
+								catch(Exception ex){
+									debug(ex.getMessage());
+								}
+							}
+							else if(code == 107){
+								try{
+									//debug(payload);
+									String friendId = "";
+									String connectivityStatus = "";
+									try{
+										friendId = (jsonObject.getString("friendId"));
+										connectivityStatus = (jsonObject.getString("state"));
+									}
+									catch(Exception ex){
+										logCatDebug(ex.getMessage());
+									}
+									
+									//debug("%%%% : "  + invitedBy + " : " + roomId);
+									int N = mCallbacks.beginBroadcast();
+									for (int i = 0; i < N; i++) {
+										try {
+
+											mCallbacks.getBroadcastItem(i).onFriendConnectivityStatusChanged(friendId, connectivityStatus);
 										} 
 										catch (RemoteException e) {
 											logCatDebug(e.getMessage());

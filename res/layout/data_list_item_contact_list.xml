@@ -24,7 +24,6 @@
         android:layout_height="@dimen/contact_list_item_status_size"
         android:layout_alignParentLeft="true"
         android:layout_alignBottom="@+id/txtContactListItemTitle"
-        android:src="@drawable/ic_contact_online"
         android:contentDescription="@null" />
 
     <View

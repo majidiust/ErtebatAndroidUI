@@ -92,6 +92,8 @@ public class ChatLogFragment extends BaseFragment implements FragmentDialogResul
 
         mRootView = rootView;
 
+        onServerConnectionChanged(SessionStore.mSessionStore.getConnectivityState());
+        
         return mRootView;
     }
 

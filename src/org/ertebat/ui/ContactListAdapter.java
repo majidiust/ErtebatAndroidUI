@@ -59,6 +59,7 @@ public class ContactListAdapter extends ArrayAdapter<ContactSummary> {
                 .resize(width, width).centerInside().placeholder(org.ertebat.R.drawable.ic_default_user_picture)
                 .error(org.ertebat.R.drawable.ic_default_user_picture).into(image);
 
+        
         image = (ImageView) itemView.findViewById(R.id.imageContactListItemStatus);
         image.setBackgroundResource(mDataSet.get(position).Status.getIcon());
 

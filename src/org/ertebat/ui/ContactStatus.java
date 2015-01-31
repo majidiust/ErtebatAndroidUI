@@ -5,7 +5,7 @@ import org.ertebat.R;
 public enum ContactStatus {
     Offline(R.drawable.ic_contact_offline),
     Idle(R.drawable.ic_contact_idle),
-    Online(R.drawable.ic_contact_offline);
+    Online(R.drawable.ic_contact_online);
 
     private int mIconResource;
 

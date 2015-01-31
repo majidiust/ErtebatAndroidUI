@@ -9,6 +9,8 @@ import org.doubango.ngn.sip.NgnAVSession;
 import org.doubango.ngn.utils.NgnStringUtils;
 import org.doubango.ngn.utils.NgnUriUtils;
 import org.ertebat.R;
+import org.ertebat.schema.SessionStore;
+
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -396,6 +398,7 @@ public class CallFragment extends BaseFragment {
 		}
 
 		mRootView = rootView;
+        onServerConnectionChanged(SessionStore.mSessionStore.getConnectivityState());
 
 		return mRootView;
 	}
