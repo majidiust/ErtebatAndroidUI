@@ -386,6 +386,40 @@ public class WebsocketService extends Service {
 									debug(ex.getMessage());
 								}
 							}
+							else if(code == 108){
+								try{
+									String friendId = "";
+									try{
+										friendId = (jsonObject.getString("friendId"));
+									}
+									catch(Exception ex){
+										logCatDebug(ex.getMessage());
+									}
+									String roomId = "";
+									try{
+										roomId = (jsonObject.getString("roomId"));
+									}
+									catch(Exception ex){
+										logCatDebug(ex.getMessage());
+									}
+									
+									//debug("%%%% : "  + invitedBy + " : " + roomId);
+									int N = mCallbacks.beginBroadcast();
+									for (int i = 0; i < N; i++) {
+										try {
+
+											mCallbacks.getBroadcastItem(i).onFriendTyping(friendId, roomId);
+										} 
+										catch (RemoteException e) {
+											logCatDebug(e.getMessage());
+										}
+									}
+									mCallbacks.finishBroadcast();
+								}
+								catch(Exception ex){
+									debug(ex.getMessage());
+								}
+							}
 							else if(code == 5){
 								try{
 									//Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

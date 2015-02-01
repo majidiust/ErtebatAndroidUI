@@ -12,6 +12,7 @@ oneway interface IWebsocketServiceCallback {
 	void friendAdded(String userName, String id, String status);
 	void roomAdded(String roomName, String roomId, String roomDesc,  String roomLogo, String roomType, String members);
 	void onFriendConnectivityStatusChanged(String friendId, String connectivityStatus);
+	void onFriendTyping(String friendId, String roomId);
 	void membersAddedToRoom(String roomId, String memberId);
 	void notifyAddedByFriend(String invitedBy);
 	void notifyAddedToRoom(String invitedBy, String roomId);

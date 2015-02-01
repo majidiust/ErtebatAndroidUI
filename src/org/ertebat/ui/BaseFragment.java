@@ -224,4 +224,10 @@ public class BaseFragment extends Fragment implements ITransport, INGN {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void onFriendTyping(String friendId, String roomId) {
+		// TODO Auto-generated method stub
+		
+	}
 }

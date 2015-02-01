@@ -20,6 +20,9 @@ public class RestAPIAddress {
 	public static String getUserByMail(){
 		return SettingSchema.mBaseRestUrl + "api/getUserByMail";
 	}
+	public static String getAnnounceTyping(){
+		return SettingSchema.mBaseRestUrl + "api/announceTyping";
+	}
 	public static String getGroupContacts(){
 		return SettingSchema.mBaseRestUrl + "api/getGroupContacts";
 	}

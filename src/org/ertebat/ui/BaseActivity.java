@@ -240,6 +240,14 @@ public class BaseActivity extends FragmentActivity implements ITransport {
 				mTransportCallback.onFriendConnectivityStatusChanged(friendId, connectivityStatus);
 			}
 		}
+
+		@Override
+		public void onFriendTyping(String friendId, String roomId)
+				throws RemoteException {
+			if (mTransportCallback != null) {
+				mTransportCallback.onFriendTyping(friendId, roomId);
+			}
+		}
 	};
 
 	protected ServiceConnection mWebsocketServiceConnection = new ServiceConnection() {
@@ -896,6 +904,8 @@ public class BaseActivity extends FragmentActivity implements ITransport {
 		}
 	}
 
+
+
 	public void getFriendList() {
 		try {
 			new Thread(new Runnable() {
@@ -965,18 +975,15 @@ public class BaseActivity extends FragmentActivity implements ITransport {
 		}
 	}
 
-	protected void sendTextMessageToServer(final String roomId, final String publishType, final String publishDate,
+	protected void sendTextMessageToServer(final int location, final String roomId, final String publishType, final String publishDate,
 			final String content) {
-		showWaitingDialog("منتظر بمانید", "در حال ارسال اطلاعات به سرور ...");
 		try {
 			new Thread(new Runnable() {
-
 				@Override
 				public void run() {
 					HttpClient client = new DefaultHttpClient();
 					Log.d(TAG, RestAPIAddress.getSignIn());
 					HttpPost post = new HttpPost(RestAPIAddress.getSendMessage());
-
 					try {
 						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
 						nameValuePairs.add(new BasicNameValuePair("publishType", publishType));
@@ -988,7 +995,7 @@ public class BaseActivity extends FragmentActivity implements ITransport {
 						HttpResponse response = client.execute(post);
 						closeWaitingDialog();
 						if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-							// showAlert("ظ¾غŒط§ظ… ط´ظ…ط§ ط¨ط§ ظ…ظˆظپظ‚غŒطھ ط§ط±ط³ط§ظ„ ط´ط¯.");
+							onMessageDelivered(roomId, location);	
 						} else {
 							showAlert("خطا در ارسال اطلاعات به سرور ...");
 						}
@@ -1013,6 +1020,31 @@ public class BaseActivity extends FragmentActivity implements ITransport {
 		cursor.moveToFirst();
 		return cursor.getString(column_index);
 	}
+
+	protected void announceTyping() {
+		try {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					HttpClient client = new DefaultHttpClient();
+					HttpGet post = new HttpGet(RestAPIAddress.getAnnounceTyping());
+					try {
+						post.setHeader("token", mCurrentUserProfile.m_token);
+						HttpResponse response = client.execute(post);
+						if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+						} else {
+							//showAlert("خطا در برقراری ارتباط با سرور ...");
+						}
+					} catch (Exception ex) {
+						Log.d(TAG, ex.getMessage());
+					}
+				}
+			}).start();
+		} catch (Exception ex) {
+			logCatDebug(ex.getMessage());
+		}
+	}
+
 
 	protected void uploadImageToTheServer(Uri selectedImage, String mRoomId) {
 		try {
@@ -1602,5 +1634,15 @@ public class BaseActivity extends FragmentActivity implements ITransport {
 		for (int i = 0; i < mTransportListeners.size(); i++) {
 			((ITransport) mTransportListeners.get(i)).onFriendConnectivityStatusChanged(friendId, connectivityStatus);
 		}
+	}
+
+	@Override
+	public void onFriendTyping(String friendId, String roomId) {
+		for (int i = 0; i < mTransportListeners.size(); i++) {
+			((ITransport) mTransportListeners.get(i)).onFriendTyping(friendId, roomId);
+		}		
+	}
+
+	private void onMessageDelivered(String roomId, int index) {
 	}
 }

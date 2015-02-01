@@ -28,5 +28,6 @@ public interface ITransport {
 	public void notifyAddedByFriend(String invitedBy);
 	public void notifyAddedToRoom(String invitedBy, String roomId);
 	public void onFriendConnectivityStatusChanged(String friendId, String connectivityStatus);
+	public void onFriendTyping(String friendId, String roomId);
 
 }
