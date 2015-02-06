@@ -2,14 +2,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    android:orientation="vertical"
     android:padding="@dimen/chat_log_item_padding" >
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
         android:background="@drawable/bg_dialog_left_green" >
 
         <ImageView
@@ -29,7 +27,7 @@
             android:gravity="right"
             android:lineSpacingMultiplier="1.3"
             android:maxWidth="@dimen/chat_message_item_content_width_reduced"
-            android:text="Hi man! How are you? I hope you are doing OK!"
+            android:text="Hi man! How are you?"
             android:textColor="#000"
             android:textSize="@dimen/chat_message_item_main_text_size" />
         
