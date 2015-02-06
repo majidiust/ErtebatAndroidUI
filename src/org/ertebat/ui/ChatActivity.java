@@ -105,6 +105,7 @@ public class ChatActivity extends BaseActivity {
 		// /////////////////////////////////////////
 
 		setupBottomBar();
+		onContactTypingChanged(false);
 	}
 
 	@Override
@@ -135,8 +136,19 @@ public class ChatActivity extends BaseActivity {
 		}
 	}
 
-	private void onContactTypingChanged(boolean isTyping) {
-		mTextContactTyping.setVisibility(isTyping ? View.VISIBLE : View.GONE);
+	private void onContactTypingChanged(final boolean isTyping) {
+		mHandler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				try{
+					mTextContactTyping.setVisibility(isTyping ? View.VISIBLE : View.GONE);
+				}catch(Exception ex){
+					logCatDebug(ex.getMessage());
+				}
+			}
+		});
+		
 	}
 
 	private void onPictureInsertionMethodSelected(int selectedIndex) {
@@ -146,6 +158,7 @@ public class ChatActivity extends BaseActivity {
 		if (method == PictureInsertionMethod.FromGallery) {
 			Intent pickPhoto = new Intent(Intent.ACTION_PICK,
 					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
 			startActivityForResult(pickPhoto, DIALOG_PICTURE_GALLERY);
 		} else {
 			Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -165,24 +178,24 @@ public class ChatActivity extends BaseActivity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			//	if(lock.tryLock()){
-					announceTyping();
+				//	if(lock.tryLock()){
+				announceTyping(mRoomId);
 				//	new Thread(new Runnable() {
-					//	@Override
-		//				public void run() {
-			//				try{
+				//	@Override
+				//				public void run() {
+				//				try{
 				//				Thread.sleep(1000);
-		//					}
-		//					catch(Exception ex)
-		//					{
-		//						logCatDebug(ex.getMessage());
-		//					}
-		//					finally{
-		//						lock.unlock();
-		//					}
-		//				}
-		//			}).start();
-		//		}
+				//					}
+				//					catch(Exception ex)
+				//					{
+				//						logCatDebug(ex.getMessage());
+				//					}
+				//					finally{
+				//						lock.unlock();
+				//					}
+				//				}
+				//			}).start();
+				//		}
 			}
 
 			@Override
@@ -406,25 +419,16 @@ public class ChatActivity extends BaseActivity {
 
 	@Override
 	public void onFriendTyping(String friendId, String roomId) {
+		//showToast("FriendId : " + friendId + " : " + roomId);
 		if(roomId.equals(mRoomId) && !mCurrentUserProfile.m_uuid.equals(friendId)){
 			onContactTypingChanged(true);
-			new Thread(new Runnable() {
+			mHandler.postDelayed(new Runnable() {
+				
 				@Override
 				public void run() {
-					try{
-						Thread.sleep(1000);
-						mHandler.post(new Runnable() {
-							@Override
-							public void run() {
-								onContactTypingChanged(false);
-							}
-						});
-					}
-					catch(Exception ex){
-						logCatDebug(ex.getMessage());
-					}
+					onContactTypingChanged(false);
 				}
-			}).start();
+			}, 5000);
 		}
 	}
 }

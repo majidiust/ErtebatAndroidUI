@@ -389,8 +389,10 @@ public class WebsocketService extends Service {
 							else if(code == 108){
 								try{
 									String friendId = "";
+									JSONObject tmpObject = new JSONObject(jsonObject.getString("user"));
+
 									try{
-										friendId = (jsonObject.getString("friendId"));
+										friendId = (tmpObject.getString("id"));
 									}
 									catch(Exception ex){
 										logCatDebug(ex.getMessage());

@@ -1021,13 +1021,13 @@ public class BaseActivity extends FragmentActivity implements ITransport {
 		return cursor.getString(column_index);
 	}
 
-	protected void announceTyping() {
+	protected void announceTyping(final String roomId) {
 		try {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					HttpClient client = new DefaultHttpClient();
-					HttpGet post = new HttpGet(RestAPIAddress.getAnnounceTyping());
+					HttpGet post = new HttpGet(RestAPIAddress.getAnnounceTyping()+"/"+roomId);
 					try {
 						post.setHeader("token", mCurrentUserProfile.m_token);
 						HttpResponse response = client.execute(post);
