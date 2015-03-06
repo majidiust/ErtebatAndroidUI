@@ -75,6 +75,7 @@ import org.doubango.ngn.utils.NgnDateTimeUtils;
 import org.doubango.ngn.utils.NgnStringUtils;
 import org.doubango.ngn.utils.NgnUriUtils;
 import org.ertebat.R;
+import org.ertebat.pdb.DatabaseUtility;
 import org.ertebat.schema.FriendSchema;
 import org.ertebat.schema.FriendSchema.FriendState;
 import org.ertebat.schema.MessageSchema;
@@ -110,6 +111,8 @@ public class BaseActivity extends FragmentActivity implements ITransport {
 
 	protected final long TIMEOUT_DIALOG_DEFAULT = 3000L;
 
+	public DatabaseUtility mDatabase;
+	
 	protected static List mTransportListeners = new ArrayList<ITransport>();
 	protected static List mNGNListeners = new ArrayList<INGN>();
 	protected BroadcastReceiver mSipBroadCastRecv;
@@ -324,6 +327,7 @@ public class BaseActivity extends FragmentActivity implements ITransport {
 		mHandler = new Handler();
 		This = this;
 		mTransportCallback = this;
+		mDatabase = new DatabaseUtility(this);
 
 		if (mSharedPref == null) {
 			mSharedPref = PreferenceManager.getDefaultSharedPreferences(This);
@@ -730,89 +734,89 @@ public class BaseActivity extends FragmentActivity implements ITransport {
 		}
 	}
 
-	public void getIncommingMessage() {
-		try {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					HttpClient client = new DefaultHttpClient();
-					Log.d(TAG, RestAPIAddress.getSignIn());
-					HttpGet getProfileRest = new HttpGet(RestAPIAddress.getIncommingMessage());
-					getProfileRest.addHeader("token", mCurrentUserProfile.m_token);
-					try {
-						HttpResponse response = client.execute(getProfileRest);
-						if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-							BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity()
-									.getContent()));
-							String line = "";
-							String jsonString = "";
-							while ((line = rd.readLine()) != null) {
-								jsonString += line;
-							}
-
-							JSONObject json = new JSONObject(jsonString);
-							if (json.getString("code").equals("103")) {
-								JSONObject value = new JSONObject(json.getString("value"));
-								String type = "";
-								String date = "";
-								String from = "";
-								String content = "";
-								String roomId = "";
-								String id = "";
-								String fromId = "";
-								try {
-									type = value.getString("type");
-								} catch (Exception ex) {
-									logCatDebug(ex.getMessage());
-								}
-								try {
-									fromId = value.getString("fromId");
-								} catch (Exception ex) {
-									logCatDebug(ex.getMessage());
-								}
-								try {
-									date = value.getString("date");
-								} catch (Exception ex) {
-									logCatDebug(ex.getMessage());
-								}
-								try {
-									from = value.getString("from");
-								} catch (Exception ex) {
-									logCatDebug(ex.getMessage());
-								}
-								try {
-									id = value.getString("id");
-								} catch (Exception ex) {
-									logCatDebug(ex.getMessage());
-								}
-								try {
-									content = value.getString("content");
-								} catch (Exception ex) {
-									logCatDebug(ex.getMessage());
-								}
-								try {
-									roomId = value.getString("roomId");
-								} catch (Exception ex) {
-									logCatDebug(ex.getMessage());
-								}
-
-								if (mTransportCallback != null) {
-									mTransportCallback.onNewMessage(new MessageSchema(id, fromId, from, roomId, date,
-											date, content));
-								}
-							}
-						} else {
-							showAlert("خطا در دریافت اطلاعات از سرور...");
-						}
-					} catch (Exception ex) {
-						Log.d(TAG, ex.getMessage());
-					}
-				}
-			}).start();
-		} catch (Exception ex) {
-			logCatDebug(ex.getMessage());
-		}
-	}
+//	public void getIncommingMessage() {
+//		try {
+//			new Thread(new Runnable() {
+//				@Override
+//				public void run() {
+//					HttpClient client = new DefaultHttpClient();
+//					Log.d(TAG, RestAPIAddress.getSignIn());
+//					HttpGet getProfileRest = new HttpGet(RestAPIAddress.getIncommingMessage());
+//					getProfileRest.addHeader("token", mCurrentUserProfile.m_token);
+//					try {
+//						HttpResponse response = client.execute(getProfileRest);
+//						if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+//							BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity()
+//									.getContent()));
+//							String line = "";
+//							String jsonString = "";
+//							while ((line = rd.readLine()) != null) {
+//								jsonString += line;
+//							}
+//
+//							JSONObject json = new JSONObject(jsonString);
+//							if (json.getString("code").equals("103")) {
+//								JSONObject value = new JSONObject(json.getString("value"));
+//								String type = "";
+//								String date = "";
+//								String from = "";
+//								String content = "";
+//								String roomId = "";
+//								String id = "";
+//								String fromId = "";
+//								try {
+//									type = value.getString("type");
+//								} catch (Exception ex) {
+//									logCatDebug(ex.getMessage());
+//								}
+//								try {
+//									fromId = value.getString("fromId");
+//								} catch (Exception ex) {
+//									logCatDebug(ex.getMessage());
+//								}
+//								try {
+//									date = value.getString("date");
+//								} catch (Exception ex) {
+//									logCatDebug(ex.getMessage());
+//								}
+//								try {
+//									from = value.getString("from");
+//								} catch (Exception ex) {
+//									logCatDebug(ex.getMessage());
+//								}
+//								try {
+//									id = value.getString("id");
+//								} catch (Exception ex) {
+//									logCatDebug(ex.getMessage());
+//								}
+//								try {
+//									content = value.getString("content");
+//								} catch (Exception ex) {
+//									logCatDebug(ex.getMessage());
+//								}
+//								try {
+//									roomId = value.getString("roomId");
+//								} catch (Exception ex) {
+//									logCatDebug(ex.getMessage());
+//								}
+//
+//								if (mTransportCallback != null) {
+//									mTransportCallback.onNewMessage(new MessageSchema(id, fromId, from, roomId, date,
+//											date, content));
+//								}
+//							}
+//						} else {
+//							showAlert("خطا در دریافت اطلاعات از سرور...");
+//						}
+//					} catch (Exception ex) {
+//						Log.d(TAG, ex.getMessage());
+//					}
+//				}
+//			}).start();
+//		} catch (Exception ex) {
+//			logCatDebug(ex.getMessage());
+//		}
+//	}
 
 	protected void saveProfile(final String uid, final String firstName, final String lastName, final String email) {
 		try {

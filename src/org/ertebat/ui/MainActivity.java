@@ -24,7 +24,7 @@ public class MainActivity extends BaseActivity {
 	private TabListener mTabListener;
 	private HomePagerAdapter mAdapter;
 	private ActionBar mActionBar;
-	private final String[] tabNames = { "Ú¯ÙØªÚ¯ÙˆÙ‡Ø§", "Ø¯ÙˆØ³ØªØ§Ù†", "ØªÙ…Ø§Ø³" };
+	private final String[] tabNames = { "İÊæ åÇ", "ÏæÓÊÇä", "ÊãÇÓ" };
 
 	private static int mCount = 0;
 

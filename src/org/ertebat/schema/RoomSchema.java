@@ -3,6 +3,7 @@ package org.ertebat.schema;
 import java.util.Vector;
 
 public class RoomSchema {
+	
 	public String mName;
 	public String mDesc;
 	public String mLogo;
@@ -10,6 +11,7 @@ public class RoomSchema {
 	public String mId;
 	public Vector<MessageSchema> mMessages = new Vector<MessageSchema>();
 	public Vector<String> mMembers = new Vector<String>();
+	
 	public RoomSchema(String id, String name, String desc, String logo, String type){
 		mName = name;
 		mType = type;

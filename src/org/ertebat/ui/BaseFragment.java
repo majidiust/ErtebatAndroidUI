@@ -3,6 +3,7 @@ package org.ertebat.ui;
 import org.doubango.ngn.events.NgnInviteEventArgs;
 import org.doubango.ngn.events.NgnInviteEventTypes;
 import org.ertebat.R;
+import org.ertebat.pdb.DatabaseUtility;
 import org.ertebat.schema.FriendSchema;
 import org.ertebat.schema.MessageSchema;
 import org.ertebat.schema.RoomSchema;
@@ -44,7 +45,7 @@ public class BaseFragment extends Fragment implements ITransport, INGN {
 	protected ProgressDialog mDialog;
 	protected Context This = null;
 	protected BaseActivity mBaseActivity = null;
-
+	protected DatabaseUtility mDatabase;
 	protected View mRootView;
 
 	@Override
@@ -56,6 +57,7 @@ public class BaseFragment extends Fragment implements ITransport, INGN {
 		mBaseActivity = (BaseActivity) getActivity();
 		((BaseActivity) getActivity()).registerToTransportListeners(this);
 		((BaseActivity) getActivity()).registerToNGNListeners(this);
+		mDatabase = mBaseActivity.mDatabase;
 		
 		return null;
 	}

@@ -85,7 +85,7 @@ public class WebsocketService extends Service {
 
 	private void getPictureImage(){
 		try{
-
+			int i = 0;
 		}
 		catch(Exception ex){
 			logCatDebug(ex.getMessage());
@@ -233,7 +233,7 @@ public class WebsocketService extends Service {
 								Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 								Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 								r.play();
-								
+
 								JSONObject tmpObject = new JSONObject(jsonObject.getString("friend"));
 								String id ,userName, status;
 								id = tmpObject.getString("friendId");
@@ -283,17 +283,17 @@ public class WebsocketService extends Service {
 										//if(SessionStore.mSessionStore != null)
 										//{
 										//	if(!SessionStore.mSessionStore.getRoomById(roomId).isExistMessage(messageId)){
-												//BaseActivity.mSessionStore.addMessageToRoom(new MessageSchema(messageId, from, roomId, date, date, content));
-												Intent showMessage = new Intent(context, ChatActivity.class);
-												showMessage.putExtra("origin", "notification");
-												showMessage.putExtra("roomId", roomId);
-												showMessage.putExtra("otherParty", from);
-												showMessage.putExtra("message", content);
-												showMessage.putExtra("messageId", messageId);
-												showMessage.putExtra("from", from);
-												showMessage.putExtra("fromId", fromId);
-												showMessage.putExtra("date", date);
-												showNotification("پیام از " + from, content, showMessage);
+										//BaseActivity.mSessionStore.addMessageToRoom(new MessageSchema(messageId, from, roomId, date, date, content));
+										Intent showMessage = new Intent(context, ChatActivity.class);
+										showMessage.putExtra("origin", "notification");
+										showMessage.putExtra("roomId", roomId);
+										showMessage.putExtra("otherParty", from);
+										showMessage.putExtra("message", content);
+										showMessage.putExtra("messageId", messageId);
+										showMessage.putExtra("from", from);
+										showMessage.putExtra("fromId", fromId);
+										showMessage.putExtra("date", date);
+										showNotification("پیام از " + from, content, showMessage);
 
 										//	}
 										////	else{
@@ -311,7 +311,7 @@ public class WebsocketService extends Service {
 								}
 							}
 							else if(code == 104){
-								
+
 								try{
 									Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 									Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
@@ -368,7 +368,7 @@ public class WebsocketService extends Service {
 									catch(Exception ex){
 										logCatDebug(ex.getMessage());
 									}
-									
+
 									//debug("%%%% : "  + invitedBy + " : " + roomId);
 									int N = mCallbacks.beginBroadcast();
 									for (int i = 0; i < N; i++) {
@@ -404,7 +404,7 @@ public class WebsocketService extends Service {
 									catch(Exception ex){
 										logCatDebug(ex.getMessage());
 									}
-									
+
 									//debug("%%%% : "  + invitedBy + " : " + roomId);
 									int N = mCallbacks.beginBroadcast();
 									for (int i = 0; i < N; i++) {
@@ -702,7 +702,7 @@ public class WebsocketService extends Service {
 	protected void logCatDebug(String txt){
 		try{
 			//	if(false)
-					Log.d(TAG, txt);
+			Log.d(TAG, txt);
 		}
 		catch(Exception ex){
 
